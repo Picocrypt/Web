@@ -2,7 +2,7 @@ package main
 
 /*
 
-Picocrypt v1.33 (WebAssembly Version)
+Picocrypt v1.43 (WebAssembly Version)
 Copyright (c) Evan Su
 Released under a GNU GPL v3 License
 https://github.com/Picocrypt/Web
@@ -18,12 +18,12 @@ import (
 	"strings"
 	"syscall/js"
 
-	"github.com/HACKERALERT/crypto/argon2"
-	"github.com/HACKERALERT/crypto/blake2b"
-	"github.com/HACKERALERT/crypto/chacha20"
-	"github.com/HACKERALERT/crypto/hkdf"
-	"github.com/HACKERALERT/crypto/sha3"
-	"github.com/HACKERALERT/infectious"
+	"github.com/Picocrypt/infectious"
+	"golang.org/x/crypto/argon2"
+	"golang.org/x/crypto/blake2b"
+	"golang.org/x/crypto/chacha20"
+	"golang.org/x/crypto/hkdf"
+	"golang.org/x/crypto/sha3"
 )
 
 var MiB = 1 << 20
@@ -48,10 +48,16 @@ func work(din []byte, mode string) []byte {
 		salt = make([]byte, 16)
 		hkdfSalt = make([]byte, 32)
 		nonce = make([]byte, 24)
-		rand.Read(salt)
-		rand.Read(hkdfSalt)
-		rand.Read(nonce)
-		dout = append(dout, rsEncode(rs5, []byte("v1.33"))...)
+		if _, err := rand.Read(salt); err != nil {
+			return []byte{2}	
+		}
+		if _, err := rand.Read(hkdfSalt); err != nil {
+			return []byte{2}	
+		}
+		if _, err := rand.Read(nonce); err != nil {
+			return []byte{2}	
+		}
+		dout = append(dout, rsEncode(rs5, []byte("v1.43"))...)
 		dout = append(dout, rsEncode(rs5, []byte("00000"))...)
 		dout = append(dout, rsEncode(rs5, make([]byte, 5))...)
 		dout = append(dout, rsEncode(rs16, salt)...)
