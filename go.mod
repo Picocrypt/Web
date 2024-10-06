@@ -1,10 +1,10 @@
 module Picocrypt
 
-go 1.17
+go 1.18
 
 require (
-	github.com/HACKERALERT/crypto v0.0.0-20220905152506-aa0dd62d8f67
-	github.com/HACKERALERT/infectious v0.0.0-20220905152109-2c37b99f37ff
+	golang.org/x/crypto v0.28.0
+	github.com/Picocrypt/infectious v0.0.0-20240830233326-3a050f65f9ec
 )
 
-require github.com/HACKERALERT/sys v0.0.0-20220905150735-46e319fb60c9 // indirect
+require golang.org/x/sys v0.26.0 // indirect
