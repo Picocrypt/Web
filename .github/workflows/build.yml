@@ -1,0 +1,43 @@
+name: build
+
+permissions:
+  contents: write
+
+on:
+  push:
+      paths:
+        - "VERSION"
+      branches:
+        - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: '>1.22'
+        check-latest: true
+        cache: false
+
+    - name: Install dependencies
+      run: |
+        go mod download
+
+    - name: Build
+      run: |
+        GOOS=js GOARCH=wasm go build -ldflags="-s -w" -o main.wasm index.go
+      env:
+        CGO_ENABLED: 0
+
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          main.wasm
+        tag_name: latest
+        make_latest: true
