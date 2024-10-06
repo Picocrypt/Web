@@ -49,13 +49,13 @@ func work(din []byte, mode string) []byte {
 		hkdfSalt = make([]byte, 32)
 		nonce = make([]byte, 24)
 		if _, err := rand.Read(salt); err != nil {
-			return []byte{2}	
+			return []byte{5}	
 		}
 		if _, err := rand.Read(hkdfSalt); err != nil {
-			return []byte{2}	
+			return []byte{5}	
 		}
 		if _, err := rand.Read(nonce); err != nil {
-			return []byte{2}	
+			return []byte{5}	
 		}
 		dout = append(dout, rsEncode(rs5, []byte("v1.43"))...)
 		dout = append(dout, rsEncode(rs5, []byte("00000"))...)
